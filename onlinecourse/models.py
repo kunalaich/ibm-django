@@ -101,7 +101,11 @@ class Enrollment(models.Model):
     # Has a grade point for each question
     # Has question content
     # Other fields and methods you would like to design
-# class Question(models.Model):
+class Question(models.Model):
+    question_text = CharField(max_length=5)
+    grade = models.CharField(max_length=5)
+    lession_id = ForeignKey(Lesson, on_delete=models.CASCADE)
+	course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
 #  Task Create a Choice Model with:
@@ -110,11 +114,16 @@ class Enrollment(models.Model):
     # Choice content
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
-# class Choice(models.Model):
+class Choice(models.Model):
+    choice_text = CharField(max_length=5)
+    is_correct = models.BooleanField(default=TRUE)
+    question_id = ForeignKey(Question, on_delete=models.CASCADE)
 
 
 #  Task Create a Submission Model with:
     # Used for tracking a course exam submission history for a learner
     # One-to-Many relationship with Enrollment, i.e., one enrollment could have multiple exam submissions
     # Many-to-Many relationship with choices or questions, for simplicity, you could just relate the choice model
-# class Submission(models.Model):
+class Submission(models.Model):
+    enrollement_id = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choice_id = models.ForeignKey(Choice , on_delete=models.CASCADE)
